@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 from scipy.stats import chi2_contingency
 
+#Using Chi-square to scan for categorical data (less than 5 strata) that is associated with the outcome
+#Return a dictionary consisting of factor:p-value
 
 def chi_pv(data, outcome, factor):
 	table = pd.crosstab(data[outcome], data[factor])
