@@ -10,6 +10,9 @@ from scipy.stats import chi2_contingency
 path = 'Desktop/..'
 data = pd.read_excel(path, sheet_name='Sheet1', parse_dates = True)
 
+#Input: data, outcome and the factor to be tested
+#Output: table dimension and Chi-square p-value
+
 def chi_p(data, outcome, factor):
 	table = pd.crosstab(data[outcome], data[factor])
 	c, p, dof, expected = chi2_contingency(table)
