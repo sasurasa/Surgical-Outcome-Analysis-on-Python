@@ -17,6 +17,8 @@ def outcomescan_2(data, outcome):
     for factor in data.columns.values.tolist():
         if data[factor].nunique() > 5:
             continue
+        elif factor == outcome:
+            continue
         else:
             pv=chi_pv(data, outcome, factor)
             d[factor] = pv
