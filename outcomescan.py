@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import numpy as np
 import pandas as pd
 from scipy.stats import chi2_contingency
@@ -19,3 +21,12 @@ def outcomescan_2(data, outcome):
             pv=chi_pv(data, outcome, factor)
             d[factor] = pv
     print(d)
+
+path = input('Enter data file with path:')
+path = path + ".xlsx"
+outcome = input('Enter surgical outcome to be analysed against:')
+
+
+data = pd.read_excel(path, sheet_name='Sheet1', parse_dates=True, engine='openpyxl')
+
+outcomescan_2(data, outcome)
