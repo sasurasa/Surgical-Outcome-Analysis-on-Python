@@ -23,3 +23,31 @@ def soap_explore(data):
 	print(data.info())
 
 soap_explore(data)
+
+from scipy import stats
+from scipy.stats import shapiro
+
+
+def shapif(data):
+    d1 = {}
+    for factor in data.columns.values.tolist():
+        if data[factor].dtypes == 'float64':
+        	x = data[factor].notna()
+        	s = stats.shapiro(x)
+        	d1[factor] = s
+    df1 = pd.DataFrame(d1.items(), columns=['variable', 'Shapiro-Wilk result'])
+    print(df1)
+
+def shapii(data):
+    d2 = {}
+    for factor in data.columns.values.tolist():
+        if data[factor].dtypes == 'int64':
+        	x = data[factor]
+        	s = stats.shapiro(x)
+        	d2[factor] = s
+    df2 = pd.DataFrame(d2.items(), columns=['variable', 'Shapiro-Wilk result'])
+    print(df2)
+
+shapif(data)
+print('\n')
+shapii(data)
