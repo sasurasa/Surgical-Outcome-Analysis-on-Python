@@ -5,7 +5,6 @@
 import pandas as pd
 
 path = input('Enter data file with path:')
-path = path + ".xlsx"
 outcome = input('Enter surgical outcome to be analysed against:')
 
 
