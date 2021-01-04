@@ -26,7 +26,6 @@ def outcomescan_2(data, outcome):
     print(df)
 	
 path = input('Enter data file with path:')
-path = path + ".xlsx"
 outcome = input('Enter surgical outcome to be analysed against:')
 
 
