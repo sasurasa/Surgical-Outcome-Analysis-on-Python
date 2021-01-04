@@ -10,7 +10,6 @@ import scipy
 from scipy.stats import ttest_ind
 
 path = input('Enter data file with path:')
-path = path + ".xlsx"
 data = pd.read_excel(path, sheet_name='Sheet1', parse_dates=True, engine='openpyxl')
 outcome = input('Enter surgical outcome to be analysed against:')
 factors = list(map(str, input('Enter a list of factors to be analysed,separated by a space: ').split()))
