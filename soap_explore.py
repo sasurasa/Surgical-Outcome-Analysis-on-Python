@@ -31,7 +31,7 @@ def shapif(data):
     d1 = {}
     for factor in data.columns.values.tolist():
         if data[factor].dtypes == 'float64':
-        	x = data[factor].notna()
+        	x = data[factor].dropna()
         	s = stats.shapiro(x)
         	d1[factor] = s
     df1 = pd.DataFrame(d1.items(), columns=['variable', 'Shapiro-Wilk result'])
