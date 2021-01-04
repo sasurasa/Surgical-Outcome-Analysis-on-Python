@@ -18,7 +18,7 @@ factors = list(map(str, input('Enter a list of factors to be analysed,separated 
 def t_test_multi(data, outcome, factors):
 	for var in factors:
 		if data[outcome].nunique() != 2:
-			print('The factor', var, 'is non-binary')
+			print('The outcome', outcome, 'is non-binary')
 			continue
 		else:
 			var_by_outcome = data.groupby(outcome)[var].describe()
