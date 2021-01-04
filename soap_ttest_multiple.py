@@ -25,7 +25,7 @@ def t_test_multi(data, outcome, factors):
 			print(var,'\n', var_by_outcome)
 			cat1 = data[data[outcome] == 0]
 			cat2 = data[data[outcome] == 1]
-			print(stats.ttest_ind(cat1[var].notna(), cat2[var].notna()))
+			print(stats.ttest_ind(cat1[var].dropna(), cat2[var].dropna()))
 
 t_test_multi(data, outcome, factors)
 
