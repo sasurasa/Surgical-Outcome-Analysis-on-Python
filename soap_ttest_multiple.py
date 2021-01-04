@@ -7,6 +7,7 @@
 
 import pandas as pd
 import scipy
+from scipy import stats
 from scipy.stats import ttest_ind
 
 path = input('Enter data file with path:')
@@ -24,7 +25,7 @@ def t_test_multi(data, outcome, factors):
 			print(var,'\n', var_by_outcome)
 			cat1 = data[data[outcome] == 0]
 			cat2 = data[data[outcome] == 1]
-			print(ttest_ind(cat1[var].notna(), cat2[var].notna()))
+			print(stats.ttest_ind(cat1[var].notna(), cat2[var].notna()))
 
 t_test_multi(data, outcome, factors)
 
