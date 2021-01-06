@@ -49,7 +49,15 @@ cols = e.columns.tolist()
 cols = cols[-1:] + cols[:-1]
 e = e[cols]
 
-print(e)
+for i in cols:
+	if i == 'horizonsum':
+		continue
+	if i == var_a:
+		continue
+	else:
+		e['%'+i] = e[i]/e['horizonsum']*100
+
+print(e)print(e)
 print('\n')
 
 
