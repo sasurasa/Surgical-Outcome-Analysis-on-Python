@@ -60,8 +60,18 @@ for i in cols:
 print(e)print(e)
 print('\n')
 
+import matplotlib.pyplot as plt
 
-
+f = e.columns.tolist()
+var = e.iloc[0:-1][f[0]]
+outc = e.iloc[0:-1][f[-1]]
+fig = plt.figure(figsize =(10, 5))
+plt.bar(var,outc, label=var.name)
+plt.xlabel(var.name)
+plt.xticks(range(var.min(),var.max()+1))
+plt.ylabel(outc.name)
+plt.title('Chi-square p-value: '+ str(p))
+plt.show()
 
 
 
