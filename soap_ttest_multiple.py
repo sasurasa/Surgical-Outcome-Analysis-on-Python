@@ -22,10 +22,13 @@ def t_test_multi(data, outcome, factors):
 			continue
 		else:
 			var_by_outcome = data.groupby(outcome)[var].describe()
-			print(var,'\n', var_by_outcome)
+			print(var,'\n', '-----------------------------------------------------')
+			print(var_by_outcome)
 			cat1 = data[data[outcome] == 0]
 			cat2 = data[data[outcome] == 1]
+			print('---------------------------------------------------------------')
 			print(stats.ttest_ind(cat1[var].dropna(), cat2[var].dropna()))
+			print(stats.mannwhitneyu(cat1[var].dropna(), cat2[var].dropna()))
 
 t_test_multi(data, outcome, factors)
 
