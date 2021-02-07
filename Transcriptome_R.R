@@ -55,14 +55,16 @@ BiocManager::install('org.Hs.eg.db')
 library(org.Hs.eg.db)
 sym <- select(org.Hs.eg.db, row.names(counts), keytype = 'ENTREZID', 'SYMBOL')
 #See what has been selected
-sym
+head(sym)
 dim(sym)
 row.names(sym) <- sym$ENTREZID
-sym
+head(sym)
 sym$SYMBOL[is.na(sym$SYMBOL)] <- sym$ENTREZID[is.na(sym$SYMBOL)]
+
 counts <- cbind(sym$SYMBOL, counts)
 row.names(counts) <- as.character(counts$`sym$SYMBOL`)
 counts$`sym$SYMBOL` <- NULL
+head(counts)
 
 #Creating a csv formatted table containing 'counts'
 write.table(counts, file = 'HNRNPC_chr14_gene_read_counts.txt')
@@ -85,9 +87,11 @@ genexp
 genexp <- estimateCommonDisp(genexp)
 genexp
 
+
 genexp <- estimateTagwiseDisp(genexp)
 genexp
 
+#Notice that CommonDisp has only one value when TagwiseDisp has dimension equal to row number
 genediff <- exactTest(genexp)
 genediff
 topTags(genediff)
@@ -101,6 +105,7 @@ dim(gsign)
 head(gsign)
 
 head(gsign, 10)
+##logFC = log(fold change), logCPM = log(count per million of that gene)
 
 #Differential expression with DESeq (Anders and Huber 2010)
 
@@ -108,12 +113,15 @@ BiocManager::install('DESeq')
 library(DESeq)
 count.set <- newCountDataSet(counts, exp.des)
 count.set
+##Notice that the row numbers are equal to 'count'
 
 #Normalization
 count.set <- estimateSizeFactors(count.set)
 sizeFactors(count.set)
 
-plot(genexp$samples$norm.factors, sizeFactors(count.set), xlab='edgeR', ylab='DESeq',main = 'Normalization factors', type='n') 
+##See the correlation between the two normalization factors
+plot(genexp$samples$norm.factors, sizeFactors(count.set), xlab='edgeR', ylab='DESeq',
+     main = 'Normalization factors', type='n', xlim=c(0.5,1.5), ylim=c(0.5,1.5)) 
 abline(0,1,lty=2)
 text(genexp$samples$norm.factors, sizeFactors(count.set), labels = names(sizeFactors(count.set)), cex = 0.8) 
 
@@ -125,7 +133,8 @@ plotBCV(genexp, main='edgeR: genewide dispersion normalized counts', cex=1)
 par(mfrow=c(1,1))
 
 head(cbind(genexp$tagwise.dispersion, fData(count.set)))
-plot(cbind(genexp$tagwise.dispersion, fData(count.set)), ylim=c(0,2), main='Gene-wide dispersion', xlab='edgeR', ylab= 'DESeq')
+plot(cbind(genexp$tagwise.dispersion, fData(count.set)), ylim=c(0,2), xlim=c(0,2), 
+     main='Gene-wide dispersion', xlab='edgeR', ylab= 'DESeq')
 abline(0,1,lty=2)
 
 #Differential expression MA plot
@@ -168,10 +177,10 @@ genexp.glm <- estimateGLMTagwiseDisp(genexp.glm, design)
 gene.exp.fit <- glmFit(genexp.glm, design)
 gene.exp.fit
 
-#Comparing KO vs Control
+#Comparing KO vs Control suing logistic regression
 genediff.lrt <- glmLRT(gene.exp.fit, coef=2)
 topTags(genediff.lrt)
-#Comparing Second design
+#Comparing Second design using logistic regression, extended to include repls
 genediff.lrt.2 <- glmLRT(gene.exp.fit, coef=3)
 topTags(genediff.lrt.2)
 
@@ -218,6 +227,10 @@ plot(gsign.lrt[common.genes, 'locFC'], gsign.ds.glm[common.genes, 'Type HNRNPC k
 abline (0,1,lty=2)
 
 #Almost there: Generating a heatmap
+library(gplots)
+
+
+
 head(gsign)
 head(gsign.ds)
 diff.exp <- data.frame(edgeR=gsign[intersect(row.names(gsign), gsign.ds$id), 'logFC'],
@@ -227,13 +240,9 @@ row.names(diff.exp) <- intersect(row.names(gsign), gsign.ds$id)
 diff.exp<- diff.exp[!is.infinite(diff.exp$DESeq),]
 diff.exp
 
-
-library(gplots)
 my.palette <- rev(redgreen(75))
 heatmap.2(log2(as.matrix(counts[rownames(gsign),]+1)),
           col=my.palette, margins=c(10,12))
-
-
 heatmap.2(as.matrix(diff.exp),dendrogram='row', Colv = FALSE,
           col=my.palette, margins=c(12,10))
 
