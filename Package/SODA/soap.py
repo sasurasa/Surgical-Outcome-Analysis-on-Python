@@ -320,7 +320,7 @@ def compare_kmc(data, factor, status, interval):
 		E1 = censor[1]
 
 		results = logrank_test(T, T1, E, E1)
-		results.print_summary())
+		results.print_summary()
         
 
 
