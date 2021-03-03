@@ -3,4 +3,6 @@ Data importing from Excel file, followed by data exploration. (sp.soapsheetin(pa
 Data scan. (sp.soapplore(data, oc))
 Comparison of parametric/non-parametric data between 2 groups of the outcome (sp.soaptu(data,oc,var)) and (sp.soapvarin() followed by sp.soaptumulti(data,oc,factors))
 Comparison of distribution between groups. (sp.soapbivarin(data) followed by sp.soapxtab(data, var_a, var_b)) and (sp.soapxtabax(data,outcome))
-Survival curve drawing (sp.single_kmc(data, status, interval)) and survival comparisons (sp.compare_kmc(data, factor, status, interval)
+Survival curve drawing (sp.single_kmc(data, status, interval)) and survival comparisons (sp.compare_kmc(data, factor, status, interval) 
+
+for manual 
