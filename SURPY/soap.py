@@ -97,7 +97,7 @@ def soaplore(data, oc):
 	print ('Mean by group \n')
 	mbo(data, oc)
 	
-def soaptu(data, oc, var):
+def soap_TU(data, oc, var):
 	if data[oc].nunique() != 2:
 		print('The outcome', oc, 'is non-binary')
 	else:
@@ -112,12 +112,8 @@ def soaptu(data, oc, var):
 		plt.boxplot([cat1[var].dropna(), cat2[var].dropna()], showmeans = True)
 		plt.show()
 
-def soapvarin():
+def soap_multi_T(data, oc):
 	factors = list(map(str, input('Enter a list of factors to be analysed,separated by a space: ').split()))
-	return factors
-
-
-def soaptumulti(data, oc, factors):
 	for var in factors:
 		if data[oc].nunique() != 2:
 			print('The outcome', oc, 'is non-binary')
@@ -132,14 +128,6 @@ def soaptumulti(data, oc, factors):
 			print(stats.ttest_ind(cat1[var].dropna(), cat2[var].dropna()))
 			print(stats.mannwhitneyu(cat1[var].dropna(), cat2[var].dropna()))
 			print('\n')
-
-def soapbivarin(data):
-	bivar = list(map(str, input('Enter a list of binary variables to be used for comparisons of var,separated by a space: ').split()))
-	for v in bivar:
-		if data[v].nunique() != 2:
-			bivar.remove(v)
-			print('The variable', v, 'is non-binary')
-	return bivar
 
 def soaptbivar(data, bivar, var):
 	edb = []
@@ -173,12 +161,17 @@ def soapubivar(data, bivar, var):
 	print('Median '+ var + ' by each binary factors')
 	print(b)
 
-def soaptubivar(data, bivar, var):
+def soap_T_for_multibinary(data, var):
+	bivar = list(map(str, input('Enter a list of binary variables to be used for comparisons of fixed continuous var,separated by a space: ').split()))
+	for v in bivar:
+		if data[v].nunique() != 2:
+			bivar.remove(v)
+			print('The variable', v, 'is non-binary')
 	soaptbivar(data, bivar, var)
 	print('\n')
 	soapubivar(data, bivar, var)
 
-def soapxtab(data, var_a, var_b):
+def soap_x_tab(data, var_a, var_b):
 	table = pd.crosstab(data[var_b], data[var_a])
 	c, p, dof, expected = chi2_contingency(table)
 	print('=================================================================================\n')
@@ -243,7 +236,7 @@ def chi_pv(data, outcome, factor):
 	c, p, dof, expected = chi2_contingency(table)
 	return p
 
-def soapxtabax(data, outcome):
+def soap_x_across(data, outcome):
     d = {}
     for factor in data.columns.values.tolist():
         if data[factor].nunique() > 5:
